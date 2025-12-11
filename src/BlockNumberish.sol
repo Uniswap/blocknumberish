@@ -12,9 +12,6 @@ contract BlockNumberish {
     // Arbitrum One chain ID.
     uint256 private constant ARB_CHAIN_ID = 42_161;
 
-    // Arbitrum system contract address for block number queries.
-    address private constant ARB_SYS_ADDRESS = 0x0000000000000000000000000000000000000064;
-
     constructor() {
         // Set the function to use based on chainid
         if (block.chainid == ARB_CHAIN_ID) {
@@ -32,6 +29,7 @@ contract BlockNumberish {
             mstore(0x00, 0xa3b1b31d00000000000000000000000000000000000000000000000000000000)
 
             // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
+            // 0x0000000000000000000000000000000000000064 is the address of the Arbitrum system contract (address(100))
             if iszero(staticcall(gas(), 0x0000000000000000000000000000000000000064, 0x00, 0x04, 0x00, 0x20)) {
                 revert(0, 0)
             }
