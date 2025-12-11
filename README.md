@@ -1,11 +1,14 @@
-## Template Repo (Foundry)
+# BlockNumberish
 
-[![CI Status](../../actions/workflows/test.yaml/badge.svg)](../../actions)
+A simple utility contract to get the current block number on different chains.
 
-This template repo is a quick and easy way to get started with a new Solidity project. It comes with a number of features that are useful for developing and deploying smart contracts. Such as:
+## Gas breakdown
 
-- Pre-commit hooks for formatting, auto generated documentation, and more
-- Various libraries with useful contracts (OpenZeppelin, Solady) and libraries (Deployment log generation, storage checks, deployer templates)
+| Operation                          | Gas Used |
+| ---------------------------------- | -------- |
+| `block.number`                     | 2        |
+| `getBlockNumberish` (other chains) | 349      |
+| `getBlockNumberish` (arbitrum)     | 1250     |
 
 #### Table of Contents
 

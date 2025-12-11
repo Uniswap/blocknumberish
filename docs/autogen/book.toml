@@ -7,7 +7,7 @@ no-section-label = true
 additional-js = ["solidity.min.js"]
 additional-css = ["book.css"]
 mathjax-support = true
-git-repository-url = "https://github.com/Uniswap/foundry-template"
+git-repository-url = "https://github.com/Uniswap/blocknumberish"
 
 [output.html.fold]
 enable = true
