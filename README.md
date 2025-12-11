@@ -8,7 +8,7 @@ A simple utility contract to get the current block number on different chains.
 | ---------------------------------- | -------- |
 | `block.number`                     | 2        |
 | `getBlockNumberish` (other chains) | 349      |
-| `getBlockNumberish` (arbitrum)     | 1250     |
+| `getBlockNumberish` (arbitrum)     | 899      |
 
 ## Installation
 Add BlockNumberish to your foundry repo:
