@@ -10,6 +10,12 @@ A simple utility contract to get the current block number on different chains.
 | `getBlockNumberish` (other chains) | 349      |
 | `getBlockNumberish` (arbitrum)     | 1250     |
 
+## Installation
+Add BlockNumberish to your foundry repo:
+```bash
+forge install https://github.com/Uniswap/blocknumberish
+```
+
 #### Table of Contents
 
 - [Setup](#setup)
