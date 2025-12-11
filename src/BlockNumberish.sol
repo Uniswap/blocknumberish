@@ -27,8 +27,19 @@ contract BlockNumberish {
     }
 
     /// @dev Private function to get the block number on arbitrum
-    function _getBlockNumberSyscall() private view returns (uint256) {
-        return IArbSys(ARB_SYS_ADDRESS).arbBlockNumber();
+    function _getBlockNumberSyscall() private view returns (uint256 blockNumber) {
+        assembly {
+            // Store the function selector for arbBlockNumber() (0xa3b1b31d) at memory position 0
+            mstore(0x00, 0xa3b1b31d00000000000000000000000000000000000000000000000000000000)
+
+            // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
+            // Call ARB_SYS_ADDRESS with 4 bytes of calldata, expect 32 bytes return
+            // We know this call cannot fail, so we discard the return value
+            pop(staticcall(gas(), 0x0000000000000000000000000000000000000064, 0x00, 0x04, 0x00, 0x20))
+
+            // Load the stored block number from memory
+            blockNumber := mload(0x00)
+        }
     }
 
     /// @dev Private function to get the block number using the opcode
