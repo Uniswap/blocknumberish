@@ -2,9 +2,20 @@
 pragma solidity ^0.8.0;
 
 import {BlockNumberish} from '../src/BlockNumberish.sol';
-import {IArbSys} from '../src/interfaces/IArbSys.sol';
 import {MockArbSys} from './mock/MockArbSys.sol';
 import {Test} from 'forge-std/Test.sol';
+
+/**
+ * @notice Minimal interface for interacting with Arbitrum system contracts
+ */
+interface IArbSys {
+    /**
+     * @notice Get Arbitrum block number (distinct from L1 block number; Arbitrum genesis block has block number 0)
+     * @return block number as int
+     */
+    function arbBlockNumber() external view returns (uint256);
+}
+
 
 contract MockBlockNumberish is BlockNumberish {
     function getBlockNumberish() public view returns (uint256) {
