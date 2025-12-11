@@ -53,3 +53,6 @@ When exploring the contracts within this repository, it is recommended to start 
 ## Contributing
 
 If you want to contribute to this project, please check [CONTRIBUTING.md](CONTRIBUTING.md) first.
+
+## License
+MIT
