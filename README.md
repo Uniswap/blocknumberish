@@ -7,8 +7,8 @@ A simple utility contract to get the current block number on different chains.
 | Operation                          | Gas Used |
 | ---------------------------------- | -------- |
 | `block.number`                     | 2        |
-| `getBlockNumberish` (other chains) | 349      |
-| `getBlockNumberish` (arbitrum)     | 899      |
+| `getBlockNumberish` (other chains) | 366      |
+| `getBlockNumberish` (arbitrum)     | 926      |
 
 ## Installation
 
