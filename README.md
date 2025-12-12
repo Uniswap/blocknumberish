@@ -7,11 +7,13 @@ A simple utility contract to get the current block number on different chains.
 | Operation                          | Gas Used |
 | ---------------------------------- | -------- |
 | `block.number`                     | 2        |
-| `getBlockNumberish` (other chains) | 349      |
-| `getBlockNumberish` (arbitrum)     | 899      |
+| `getBlockNumberish` (other chains) | 366      |
+| `getBlockNumberish` (arbitrum)     | 926      |
 
 ## Installation
+
 Add BlockNumberish to your foundry repo:
+
 ```bash
 forge install https://github.com/Uniswap/blocknumberish
 ```
@@ -55,4 +57,5 @@ When exploring the contracts within this repository, it is recommended to start 
 If you want to contribute to this project, please check [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
 ## License
+
 MIT
