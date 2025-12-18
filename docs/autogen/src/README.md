@@ -8,7 +8,7 @@ A simple utility contract to get the current block number on different chains.
 | ---------------------------------- | -------- |
 | `block.number`                     | 7        |
 | `getBlockNumberish` (other chains) | 68       |
-| `getBlockNumberish` (arbitrum)     | 629      |
+| `getBlockNumberish` (arbitrum)     | 5129     |
 | bytecode size                      | 47       |
 
 ## Installation
