@@ -94,4 +94,13 @@ contract BlockNumberishTest is Test {
         (uint256 blockNumber,) = blockNumberish.getBlockNumberish();
         assertEq(blockNumber, _blockNumber);
     }
+
+    function test_RevertsOnEmptyArbSysAddress() public {
+        vm.chainId(42_161);
+        blockNumberish = new MockBlockNumberish();
+        vm.etch(ARB_SYS_ADDRESS, bytes(''));
+
+        vm.expectRevert();
+        blockNumberish.getBlockNumberish();
+    }
 }

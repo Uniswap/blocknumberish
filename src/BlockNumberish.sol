@@ -20,7 +20,9 @@ contract BlockNumberish {
             assembly {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
-                if iszero(staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)) {
+                let success := staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)
+                // if the call fails from OOG or returns no data (if the address has no code), revert
+                if or(iszero(success), iszero(returndatasize())) {
                     revert(0, 0)
                 }
 
