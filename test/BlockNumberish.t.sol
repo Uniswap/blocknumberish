@@ -48,6 +48,8 @@ contract BlockNumberishTest is Test {
         mockArbSys = MockArbSys(ARB_SYS_ADDRESS);
     }
 
+    /// forge-config: default.isolate = true
+    /// forge-config: ci.isolate = true
     function test_ArbitrumBlockNumber_gas() public {
         vm.chainId(42_161);
         blockNumberish = new MockBlockNumberish();
@@ -58,6 +60,8 @@ contract BlockNumberishTest is Test {
         vm.snapshotValue('arbitrum getBlockNumberish gas', gasUsed);
     }
 
+    /// forge-config: default.isolate = true
+    /// forge-config: ci.isolate = true
     function test_StandardBlockNumber_gas() public {
         blockNumberish = new MockBlockNumberish();
         vm.roll(1);
@@ -65,6 +69,8 @@ contract BlockNumberishTest is Test {
         vm.snapshotValue('standard getBlockNumberish gas', gasUsed);
     }
 
+    /// forge-config: default.isolate = true
+    /// forge-config: ci.isolate = true
     function test_BlockNumber_gas() public {
         blockNumberish = new MockBlockNumberish();
         (, uint256 gasUsed) = blockNumberish.getBlockNumber();
