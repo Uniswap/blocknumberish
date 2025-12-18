@@ -1,5 +1,5 @@
 # BlockNumberish
-[Git Source](https://github.com/Uniswap/blocknumberish/blob/9d57a9c439f3be6c1528339e206d852b6a0f78cb/src/BlockNumberish.sol)
+[Git Source](https://github.com/Uniswap/blocknumberish/blob/0b18ce67ad9539f3099722b781328b80c9890ad9/src/BlockNumberish.sol)
 
 **Title:**
 BlockNumberish
@@ -23,7 +23,7 @@ Function selector for arbBlockNumber() from: https://github.com/OffchainLabs/nit
 
 
 ```solidity
-bytes4 private constant ARB_SYS_SELECTOR = 0xa3b1b31d
+uint32 private constant ARB_SYS_SELECTOR = 0xa3b1b31d
 ```
 
 
@@ -32,7 +32,7 @@ Arbitrum system contract address (address(100))
 
 
 ```solidity
-address private constant ARB_SYS_ADDRESS = 0x0000000000000000000000000000000000000064
+uint8 private constant ARB_SYS_ADDRESS = 0x64
 ```
 
 
