@@ -1,4 +1,6 @@
 {
-  "arbitrumBlockNumber_gas": "926",
-  "blockNumber_gas": "366"
+  "arbitrum getBlockNumberish gas": "629",
+  "block.number gas": "7",
+  "bytecode size": "47",
+  "standard getBlockNumberish gas": "68"
 }

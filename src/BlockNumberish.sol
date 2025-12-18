@@ -9,9 +9,9 @@ contract BlockNumberish {
     // Arbitrum One chain ID.
     uint256 private constant ARB_CHAIN_ID = 42_161;
     /// @dev Function selector for arbBlockNumber() from: https://github.com/OffchainLabs/nitro-precompile-interfaces/blob/f49a4889b486fd804a7901203f5f663cfd1581c8/ArbSys.sol#L17
-    bytes4 private constant ARB_SYS_SELECTOR = 0xa3b1b31d;
+    uint32 private constant ARB_SYS_SELECTOR = 0xa3b1b31d;
     /// @dev Arbitrum system contract address (address(100))
-    address private constant ARB_SYS_ADDRESS = 0x0000000000000000000000000000000000000064;
+    uint8 private constant ARB_SYS_ADDRESS = 0x64;
 
     /// @notice Internal view function to get the current block number.
     /// @dev Returns Arbitrum block number on Arbitrum One, standard block number elsewhere.
@@ -20,7 +20,7 @@ contract BlockNumberish {
             assembly {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
-                if iszero(staticcall(gas(), ARB_SYS_ADDRESS, 0x00, 0x04, 0x00, 0x20)) {
+                if iszero(staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)) {
                     revert(0, 0)
                 }
 
