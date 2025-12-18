@@ -21,12 +21,12 @@ contract BlockNumberish {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
                 let success := staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)
-                // if the call fails from OOG or returns no data (if the address has no code), revert
+                // revert if the call fails from OOG or returns no data (if the address has no code)
                 if or(iszero(success), iszero(returndatasize())) {
                     revert(0, 0)
                 }
 
-                // Load the stored block number from memory
+                // load the stored block number from memory
                 blockNumber := mload(0x00)
             }
         } else {
