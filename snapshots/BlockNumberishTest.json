@@ -2,5 +2,7 @@
   "arbitrum getBlockNumberish gas": "5154",
   "block.number gas": "7",
   "bytecode size": "47",
-  "standard getBlockNumberish gas": "68"
+  "standard getBlockNumberish gas": "68",
+  "standard getFlashblockNumberish gas": "60",
+  "unichain getFlashblockNumberish gas": "5165"
 }
