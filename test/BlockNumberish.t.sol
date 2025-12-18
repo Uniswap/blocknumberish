@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import {BlockNumberish} from '../src/BlockNumberish.sol';
 import {MockArbSys} from './mock/MockArbSys.sol';
+import {MockMalformedDataArbSys} from './mock/MockMalformedDataArbSys.sol';
 import {Test} from 'forge-std/Test.sol';
 
 /**
@@ -99,6 +100,15 @@ contract BlockNumberishTest is Test {
         vm.chainId(42_161);
         blockNumberish = new MockBlockNumberish();
         vm.etch(ARB_SYS_ADDRESS, bytes(''));
+
+        vm.expectRevert();
+        blockNumberish.getBlockNumberish();
+    }
+
+    function test_RevertsOnMaliciousArbSysAddress() public {
+        vm.chainId(42_161);
+        blockNumberish = new MockBlockNumberish();
+        vm.etch(ARB_SYS_ADDRESS, type(MockMalformedDataArbSys).creationCode);
 
         vm.expectRevert();
         blockNumberish.getBlockNumberish();

@@ -21,8 +21,8 @@ contract BlockNumberish {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
                 let success := staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)
-                // revert if the call fails from OOG or returns no data (if the address has no code)
-                if or(iszero(success), iszero(returndatasize())) {
+                // revert if the call fails from OOG or returns malformed data
+                if or(iszero(success), iszero(eq(returndatasize(), 0x20))) {
                     revert(0, 0)
                 }
 
