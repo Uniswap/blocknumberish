@@ -43,6 +43,7 @@ contract BlockNumberishTest is Test {
 
     function setUp() public {
         blockNumberish = new MockBlockNumberish();
+        vm.snapshotValue('bytecode size', type(BlockNumberish).creationCode.length);
         // etch MockArbSys to address(100)
         vm.etch(ARB_SYS_ADDRESS, address(new MockArbSys()).code);
         mockArbSys = MockArbSys(ARB_SYS_ADDRESS);
