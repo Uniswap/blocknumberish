@@ -25,6 +25,7 @@ forge install https://github.com/Uniswap/blocknumberish
 
 - [Setup](#setup)
 - [Deployment](#deployment)
+- [Audits](#audits)
 - [Docs](#docs)
 - [Contributing](#contributing)
 
@@ -48,6 +49,10 @@ Smart contracts are deployed or upgraded using the following command:
 ```shell
 forge script script/Deploy.s.sol --broadcast --rpc-url <rpc_url> --verify
 ```
+
+## Audits
+
+The commit tagged v1.0.0 has been audited by OpenZeppelin. The report can be found [here](./docs/audit/OpenZeppelin.pdf).
 
 ## Docs
 
