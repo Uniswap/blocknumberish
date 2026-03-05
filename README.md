@@ -4,14 +4,14 @@ A simple utility contract to get the current block number on different chains. I
 
 ## Gas breakdown
 
-| Operation                          | Gas Used |
-| ---------------------------------- | -------- |
-| `block.number`                     | 7        |
-| `getBlockNumberish` (other chains) | 68       |
-| `getBlockNumberish` (arbitrum)     | 5154     |
+| Operation                               | Gas Used |
+| --------------------------------------- | -------- |
+| `block.number`                          | 7        |
+| `getBlockNumberish` (other chains)      | 68       |
+| `getBlockNumberish` (arbitrum)          | 5154     |
 | `getFlashblockNumberish` (other chains) | 60       |
-| `getFlashblockNumberish` (unichain) | 5165     |
-| bytecode size                      | 47       |
+| `getFlashblockNumberish` (unichain)     | 5165     |
+| bytecode size                           | 47       |
 
 ## Installation
 
