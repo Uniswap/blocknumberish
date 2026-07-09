@@ -1,5 +1,5 @@
 # BlockNumberish
-[Git Source](https://github.com/Uniswap/blocknumberish/blob/0b18ce67ad9539f3099722b781328b80c9890ad9/src/BlockNumberish.sol)
+[Git Source](https://github.com/Uniswap/blocknumberish/blob/385593681fd54f88e03632182b553663610aab17/src/BlockNumberish.sol)
 
 **Title:**
 BlockNumberish
@@ -11,10 +11,10 @@ security-contact: security@uniswap.org
 
 
 ## State Variables
-### ARB_CHAIN_ID
+### UNICHAIN_CHAIN_ID
 
 ```solidity
-uint256 private constant ARB_CHAIN_ID = 42_161
+uint256 private constant UNICHAIN_CHAIN_ID = 130
 ```
 
 
@@ -36,15 +36,61 @@ uint8 private constant ARB_SYS_ADDRESS = 0x64
 ```
 
 
+### UNICHAIN_FLASHBLOCK_NUMBER_SELECTOR
+Function selector for getFlashblockNumber() from: https://github.com/Uniswap/flashblocks_number_contract/blob/a667d57f0055de80b9909c8837e872c4364853c3/src/IFlashblockNumber.sol#L70
+
+
+```solidity
+uint32 private constant UNICHAIN_FLASHBLOCK_NUMBER_SELECTOR = 0xe5b37c5d
+```
+
+
+### UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS
+Unichain flashblock number address
+
+
+```solidity
+address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b03f79f70955fFf3b03cf753E
+```
+
+
+### _USE_ARB_SYS
+Whether the ArbSys precompile at address(100) is present and returns a valid block number, probed
+once at construction. This supports all Arbitrum and Orbit chains without maintaining a hardcoded chain ID list.
+
+
+```solidity
+bool private immutable _USE_ARB_SYS
+```
+
+
 ## Functions
+### constructor
+
+
+```solidity
+constructor() ;
+```
+
 ### _getBlockNumberish
 
 Internal view function to get the current block number.
 
-Returns Arbitrum block number on Arbitrum One, standard block number elsewhere.
+Returns the Arbitrum block number on chains exposing the ArbSys precompile, standard block number elsewhere.
 
 
 ```solidity
 function _getBlockNumberish() internal view returns (uint256 blockNumber);
+```
+
+### _getFlashblockNumberish
+
+Internal view function to get the current flashblock number.
+
+Returns Unichain flashblock number on Unichain, 0 elsewhere.
+
+
+```solidity
+function _getFlashblockNumberish() internal view returns (uint256 flashblockNumber);
 ```
 

@@ -6,8 +6,6 @@ pragma solidity ^0.8.0;
 /// inspired by https://github.com/ProjectOpenSea/tstorish/blob/main/src/Tstorish.sol
 /// @custom:security-contact security@uniswap.org
 contract BlockNumberish {
-    // Arbitrum One chain ID.
-    uint256 private constant ARB_CHAIN_ID = 42_161;
     // Unichain chain ID.
     uint256 private constant UNICHAIN_CHAIN_ID = 130;
     /// @dev Function selector for arbBlockNumber() from: https://github.com/OffchainLabs/nitro-precompile-interfaces/blob/f49a4889b486fd804a7901203f5f663cfd1581c8/ArbSys.sol#L17
@@ -19,10 +17,27 @@ contract BlockNumberish {
     /// @dev Unichain flashblock number address
     address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b03f79f70955fFf3b03cf753E;
 
+    /// @dev Whether to override the block number with the ArbSys precompile. Supports all Arbitrum and Orbit chains.
+    bool private immutable _USE_ARB_SYS;
+
+    constructor() {
+        bool useArbSys;
+        assembly {
+            if extcodesize(ARB_SYS_ADDRESS) {
+                mstore(0x00, ARB_SYS_SELECTOR)
+                // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
+                let success := staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)
+                // per the interface, require the call to succeed and return a 32 byte value
+                useArbSys := and(success, eq(returndatasize(), 0x20))
+            }
+        }
+        _USE_ARB_SYS = useArbSys;
+    }
+
     /// @notice Internal view function to get the current block number.
-    /// @dev Returns Arbitrum block number on Arbitrum One, standard block number elsewhere.
+    /// @dev Returns the Arbitrum block number on chains exposing the ArbSys precompile, standard block number elsewhere.
     function _getBlockNumberish() internal view returns (uint256 blockNumber) {
-        if (block.chainid == ARB_CHAIN_ID) {
+        if (_USE_ARB_SYS) {
             assembly {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
