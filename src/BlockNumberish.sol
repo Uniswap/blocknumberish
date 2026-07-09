@@ -17,7 +17,7 @@ contract BlockNumberish {
     /// @dev Unichain flashblock number address
     address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b03f79f70955fFf3b03cf753E;
 
-    /// @dev Whether the ArbSys precompile is deployed at address(100), detected once at construction.
+    /// @dev Whether the ArbSys precompile is deployed at address(100). Set at construction.
     /// This supports all Arbitrum and Orbit chains without maintaining a hardcoded chain ID list.
     bool private immutable _USE_ARB_SYS;
 
