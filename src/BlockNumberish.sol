@@ -17,20 +17,17 @@ contract BlockNumberish {
     /// @dev Unichain flashblock number address
     address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b03f79f70955fFf3b03cf753E;
 
-    /// @dev Whether the ArbSys precompile at address(100) is present and returns a valid block number, probed
-    /// once at construction. This supports all Arbitrum and Orbit chains without maintaining a hardcoded chain ID list.
+    /// @dev Whether to override the block number with the ArbSys precompile. Supports all Arbitrum and Orbit chains.
     bool private immutable _USE_ARB_SYS;
 
     constructor() {
         bool useArbSys;
         assembly {
-            // only probe addresses that actually have code
             if extcodesize(ARB_SYS_ADDRESS) {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
                 let success := staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)
-                // only route through ArbSys if the call succeeds and returns a 32 byte value, otherwise the
-                // runtime revert guard in _getBlockNumberish would trigger on every call
+                // per the interface, require the call to succeed and return a 32 byte value
                 useArbSys := and(success, eq(returndatasize(), 0x20))
             }
         }
