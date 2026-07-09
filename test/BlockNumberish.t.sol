@@ -42,13 +42,18 @@ contract BlockNumberishTest is Test {
     address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b03f79f70955fFf3b03cf753E;
 
     function setUp() public {
+        // Leave address(100) empty by default so instances deployed here take the standard block.number path.
         blockNumberish = new MockBlockNumberish();
         vm.snapshotValue('bytecode size', type(BlockNumberish).creationCode.length);
-        // etch MockArbSys to address(100)
-        vm.etch(ARB_SYS_ADDRESS, address(new MockArbSys()).code);
-        mockArbSys = MockArbSys(ARB_SYS_ADDRESS);
         vm.etch(UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS, address(new MockFlashblockNumber()).code);
         mockFlashblockNumber = MockFlashblockNumber(UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS);
+    }
+
+    /// @dev Deploy the ArbSys mock to address(100) so a freshly constructed contract detects the precompile.
+    function _deployArbitrum() internal returns (MockBlockNumberish deployed) {
+        vm.etch(ARB_SYS_ADDRESS, address(new MockArbSys()).code);
+        mockArbSys = MockArbSys(ARB_SYS_ADDRESS);
+        deployed = new MockBlockNumberish();
     }
 
     function test_BytecodeSize() public {
@@ -58,8 +63,7 @@ contract BlockNumberishTest is Test {
     /// forge-config: default.isolate = true
     /// forge-config: ci.isolate = true
     function test_ArbitrumBlockNumber_gas() public {
-        vm.chainId(42_161);
-        blockNumberish = new MockBlockNumberish();
+        blockNumberish = _deployArbitrum();
         mockArbSys.setBlockNumber(1);
 
         vm.expectCall(ARB_SYS_ADDRESS, abi.encodeWithSelector(IArbSys.arbBlockNumber.selector));
@@ -109,25 +113,10 @@ contract BlockNumberishTest is Test {
               Fuzz tests
      ******************************/
 
+    /// @dev Detection is based on the ArbSys precompile at address(100), so this path covers all
+    /// Arbitrum and Orbit chains (Arbitrum One, Arbitrum Sepolia, Robinhood, etc.) regardless of chain ID.
     function test_ArbitrumBlockNumber(uint64 _blockNumber) public {
-        _assertArbBlockNumberForChain(42_161, _blockNumber);
-    }
-
-    function test_ArbitrumSepoliaBlockNumber(uint64 _blockNumber) public {
-        _assertArbBlockNumberForChain(421_614, _blockNumber);
-    }
-
-    function test_RobinhoodBlockNumber(uint64 _blockNumber) public {
-        _assertArbBlockNumberForChain(4663, _blockNumber);
-    }
-
-    function test_RobinhoodTestnetBlockNumber(uint64 _blockNumber) public {
-        _assertArbBlockNumberForChain(46_630, _blockNumber);
-    }
-
-    function _assertArbBlockNumberForChain(uint256 _chainId, uint64 _blockNumber) internal {
-        vm.chainId(_chainId);
-        blockNumberish = new MockBlockNumberish();
+        blockNumberish = _deployArbitrum();
         mockArbSys.setBlockNumber(_blockNumber);
 
         vm.expectCall(ARB_SYS_ADDRESS, abi.encodeWithSelector(IArbSys.arbBlockNumber.selector));
@@ -146,6 +135,7 @@ contract BlockNumberishTest is Test {
         assertEq(flashblockNumber, _flashblockNumber);
     }
 
+    /// @dev A contract deployed where address(100) is empty must never take the ArbSys path.
     function test_StandardBlockNumber(uint64 _blockNumber) public {
         blockNumberish = new MockBlockNumberish();
 
@@ -155,8 +145,8 @@ contract BlockNumberishTest is Test {
     }
 
     function test_RevertsOnEmptyArbSysAddress() public {
-        vm.chainId(42_161);
-        blockNumberish = new MockBlockNumberish();
+        // Detect the precompile at construction, then clear it so the call hits an empty address.
+        blockNumberish = _deployArbitrum();
         vm.etch(ARB_SYS_ADDRESS, bytes(''));
 
         vm.expectRevert();
@@ -173,8 +163,8 @@ contract BlockNumberishTest is Test {
     }
 
     function test_RevertsOnMaliciousArbSysAddress() public {
-        vm.chainId(42_161);
-        blockNumberish = new MockBlockNumberish();
+        // Detect the precompile at construction, then replace it with code returning malformed data.
+        blockNumberish = _deployArbitrum();
         vm.etch(ARB_SYS_ADDRESS, type(MockMalformedDataArbSys).creationCode);
 
         vm.expectRevert();

@@ -7,13 +7,13 @@ A simple utility contract to get the current block number on different chains. I
 | Operation                               | Gas Used |
 | --------------------------------------- | -------- |
 | `block.number`                          | 7        |
-| `getBlockNumberish` (other chains)      | 168      |
-| `getBlockNumberish` (arbitrum-based)    | 5221     |
+| `getBlockNumberish` (other chains)      | 66       |
+| `getBlockNumberish` (arbitrum-based)    | 5152     |
 | `getFlashblockNumberish` (other chains) | 60       |
 | `getFlashblockNumberish` (unichain)     | 5165     |
-| bytecode size                           | 47       |
+| bytecode size                           | 76       |
 
-`getBlockNumberish` routes the following Arbitrum-based chains through the `ArbSys(0x64).arbBlockNumber()` precompile: Arbitrum One (`42161`), Arbitrum Sepolia (`421614`), Robinhood (`4663`), and Robinhood testnet (`46630`). All other chains use `block.number`. The "other chains" figure is the worst case, where every chainId comparison misses.
+`getBlockNumberish` detects the `ArbSys(0x64)` precompile once in the constructor and caches the result in an immutable, so it routes through `ArbSys.arbBlockNumber()` on all Arbitrum and Orbit chains (Arbitrum One, Arbitrum Sepolia, Robinhood, etc.) without a hardcoded chain ID list, and uses `block.number` everywhere else.
 
 ## Installation
 

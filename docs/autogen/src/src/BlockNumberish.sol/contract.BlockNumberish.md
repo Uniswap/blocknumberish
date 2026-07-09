@@ -1,5 +1,5 @@
 # BlockNumberish
-[Git Source](https://github.com/Uniswap/blocknumberish/blob/f283af28d1c7a6b2b4b86acd7d6a1a04c38ef8d4/src/BlockNumberish.sol)
+[Git Source](https://github.com/Uniswap/blocknumberish/blob/88d3432df2e805cbe433e8553cd81ed4832cfa2e/src/BlockNumberish.sol)
 
 **Title:**
 BlockNumberish
@@ -11,34 +11,6 @@ security-contact: security@uniswap.org
 
 
 ## State Variables
-### ARB_CHAIN_ID
-
-```solidity
-uint256 private constant ARB_CHAIN_ID = 42_161
-```
-
-
-### ARB_SEPOLIA_CHAIN_ID
-
-```solidity
-uint256 private constant ARB_SEPOLIA_CHAIN_ID = 421_614
-```
-
-
-### ROBINHOOD_CHAIN_ID
-
-```solidity
-uint256 private constant ROBINHOOD_CHAIN_ID = 4663
-```
-
-
-### ROBINHOOD_TESTNET_CHAIN_ID
-
-```solidity
-uint256 private constant ROBINHOOD_TESTNET_CHAIN_ID = 46_630
-```
-
-
 ### UNICHAIN_CHAIN_ID
 
 ```solidity
@@ -82,13 +54,29 @@ address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b
 ```
 
 
+### _USE_ARB_SYS
+Whether the ArbSys precompile is deployed at address(100), detected once at construction.
+This supports all Arbitrum and Orbit chains without maintaining a hardcoded chain ID list.
+
+
+```solidity
+bool private immutable _USE_ARB_SYS
+```
+
+
 ## Functions
+### constructor
+
+
+```solidity
+constructor() ;
+```
+
 ### _getBlockNumberish
 
 Internal view function to get the current block number.
 
-Returns the Arbitrum block number on Arbitrum-based chains (Arbitrum One, Arbitrum Sepolia,
-Robinhood, Robinhood testnet), standard block number elsewhere.
+Returns the Arbitrum block number on chains exposing the ArbSys precompile, standard block number elsewhere.
 
 
 ```solidity
