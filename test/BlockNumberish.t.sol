@@ -144,6 +144,17 @@ contract BlockNumberishTest is Test {
         assertEq(blockNumber, _blockNumber);
     }
 
+    /// @dev If address(100) has code but the probe call does not return a 32 byte value at construction,
+    /// detection must reject it and fall back to block.number rather than baking in an always-reverting path.
+    function test_StandardBlockNumberWhenArbSysProbeMalformed(uint64 _blockNumber) public {
+        vm.etch(ARB_SYS_ADDRESS, type(MockMalformedDataArbSys).creationCode);
+        blockNumberish = new MockBlockNumberish();
+
+        vm.roll(_blockNumber);
+        (uint256 blockNumber,) = blockNumberish.getBlockNumberish();
+        assertEq(blockNumber, _blockNumber);
+    }
+
     function test_RevertsOnEmptyArbSysAddress() public {
         // Detect the precompile at construction, then clear it so the call hits an empty address.
         blockNumberish = _deployArbitrum();
