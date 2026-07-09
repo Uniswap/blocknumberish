@@ -1,15 +1,19 @@
 # BlockNumberish
 
-A simple utility contract to get the current block number on different chains.
+A simple utility contract to get the current block number on different chains. Includes support for fetching Flashblock numbers on Unichain
 
 ## Gas breakdown
 
-| Operation                          | Gas Used |
-| ---------------------------------- | -------- |
-| `block.number`                     | 7        |
-| `getBlockNumberish` (other chains) | 68       |
-| `getBlockNumberish` (arbitrum)     | 5129     |
-| bytecode size                      | 47       |
+| Operation                               | Gas Used |
+| --------------------------------------- | -------- |
+| `block.number`                          | 7        |
+| `getBlockNumberish` (other chains)      | 168      |
+| `getBlockNumberish` (arbitrum-based)    | 5221     |
+| `getFlashblockNumberish` (other chains) | 60       |
+| `getFlashblockNumberish` (unichain)     | 5165     |
+| bytecode size                           | 47       |
+
+`getBlockNumberish` routes the following Arbitrum-based chains through the `ArbSys(0x64).arbBlockNumber()` precompile: Arbitrum One (`42161`), Arbitrum Sepolia (`421614`), Robinhood (`4663`), and Robinhood testnet (`46630`). All other chains use `block.number`. The "other chains" figure is the worst case, where every chainId comparison misses.
 
 ## Installation
 

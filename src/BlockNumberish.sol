@@ -8,6 +8,12 @@ pragma solidity ^0.8.0;
 contract BlockNumberish {
     // Arbitrum One chain ID.
     uint256 private constant ARB_CHAIN_ID = 42_161;
+    // Arbitrum Sepolia chain ID.
+    uint256 private constant ARB_SEPOLIA_CHAIN_ID = 421_614;
+    // Robinhood chain ID (Arbitrum Orbit).
+    uint256 private constant ROBINHOOD_CHAIN_ID = 4663;
+    // Robinhood testnet chain ID (Arbitrum Orbit).
+    uint256 private constant ROBINHOOD_TESTNET_CHAIN_ID = 46_630;
     // Unichain chain ID.
     uint256 private constant UNICHAIN_CHAIN_ID = 130;
     /// @dev Function selector for arbBlockNumber() from: https://github.com/OffchainLabs/nitro-precompile-interfaces/blob/f49a4889b486fd804a7901203f5f663cfd1581c8/ArbSys.sol#L17
@@ -20,9 +26,14 @@ contract BlockNumberish {
     address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b03f79f70955fFf3b03cf753E;
 
     /// @notice Internal view function to get the current block number.
-    /// @dev Returns Arbitrum block number on Arbitrum One, standard block number elsewhere.
+    /// @dev Returns the Arbitrum block number on Arbitrum-based chains (Arbitrum One, Arbitrum Sepolia,
+    /// Robinhood, Robinhood testnet), standard block number elsewhere.
     function _getBlockNumberish() internal view returns (uint256 blockNumber) {
-        if (block.chainid == ARB_CHAIN_ID) {
+        uint256 chainId = block.chainid;
+        if (
+            chainId == ARB_CHAIN_ID || chainId == ARB_SEPOLIA_CHAIN_ID || chainId == ROBINHOOD_CHAIN_ID
+                || chainId == ROBINHOOD_TESTNET_CHAIN_ID
+        ) {
             assembly {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)

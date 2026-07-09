@@ -1,5 +1,5 @@
 # BlockNumberish
-[Git Source](https://github.com/Uniswap/blocknumberish/blob/0b18ce67ad9539f3099722b781328b80c9890ad9/src/BlockNumberish.sol)
+[Git Source](https://github.com/Uniswap/blocknumberish/blob/f283af28d1c7a6b2b4b86acd7d6a1a04c38ef8d4/src/BlockNumberish.sol)
 
 **Title:**
 BlockNumberish
@@ -15,6 +15,34 @@ security-contact: security@uniswap.org
 
 ```solidity
 uint256 private constant ARB_CHAIN_ID = 42_161
+```
+
+
+### ARB_SEPOLIA_CHAIN_ID
+
+```solidity
+uint256 private constant ARB_SEPOLIA_CHAIN_ID = 421_614
+```
+
+
+### ROBINHOOD_CHAIN_ID
+
+```solidity
+uint256 private constant ROBINHOOD_CHAIN_ID = 4663
+```
+
+
+### ROBINHOOD_TESTNET_CHAIN_ID
+
+```solidity
+uint256 private constant ROBINHOOD_TESTNET_CHAIN_ID = 46_630
+```
+
+
+### UNICHAIN_CHAIN_ID
+
+```solidity
+uint256 private constant UNICHAIN_CHAIN_ID = 130
 ```
 
 
@@ -36,15 +64,45 @@ uint8 private constant ARB_SYS_ADDRESS = 0x64
 ```
 
 
+### UNICHAIN_FLASHBLOCK_NUMBER_SELECTOR
+Function selector for getFlashblockNumber() from: https://github.com/Uniswap/flashblocks_number_contract/blob/a667d57f0055de80b9909c8837e872c4364853c3/src/IFlashblockNumber.sol#L70
+
+
+```solidity
+uint32 private constant UNICHAIN_FLASHBLOCK_NUMBER_SELECTOR = 0xe5b37c5d
+```
+
+
+### UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS
+Unichain flashblock number address
+
+
+```solidity
+address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b03f79f70955fFf3b03cf753E
+```
+
+
 ## Functions
 ### _getBlockNumberish
 
 Internal view function to get the current block number.
 
-Returns Arbitrum block number on Arbitrum One, standard block number elsewhere.
+Returns the Arbitrum block number on Arbitrum-based chains (Arbitrum One, Arbitrum Sepolia,
+Robinhood, Robinhood testnet), standard block number elsewhere.
 
 
 ```solidity
 function _getBlockNumberish() internal view returns (uint256 blockNumber);
+```
+
+### _getFlashblockNumberish
+
+Internal view function to get the current flashblock number.
+
+Returns Unichain flashblock number on Unichain, 0 elsewhere.
+
+
+```solidity
+function _getFlashblockNumberish() internal view returns (uint256 flashblockNumber);
 ```
 

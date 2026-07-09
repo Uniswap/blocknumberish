@@ -110,7 +110,23 @@ contract BlockNumberishTest is Test {
      ******************************/
 
     function test_ArbitrumBlockNumber(uint64 _blockNumber) public {
-        vm.chainId(42_161);
+        _assertArbBlockNumberForChain(42_161, _blockNumber);
+    }
+
+    function test_ArbitrumSepoliaBlockNumber(uint64 _blockNumber) public {
+        _assertArbBlockNumberForChain(421_614, _blockNumber);
+    }
+
+    function test_RobinhoodBlockNumber(uint64 _blockNumber) public {
+        _assertArbBlockNumberForChain(4663, _blockNumber);
+    }
+
+    function test_RobinhoodTestnetBlockNumber(uint64 _blockNumber) public {
+        _assertArbBlockNumberForChain(46_630, _blockNumber);
+    }
+
+    function _assertArbBlockNumberForChain(uint256 _chainId, uint64 _blockNumber) internal {
+        vm.chainId(_chainId);
         blockNumberish = new MockBlockNumberish();
         mockArbSys.setBlockNumber(_blockNumber);
 
