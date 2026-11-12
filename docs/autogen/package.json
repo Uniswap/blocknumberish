@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "vocs dev",
+    "build": "vocs build",
+    "preview": "vocs preview"
+  },
+  "dependencies": {
+    "react": "^19",
+    "react-dom": "^19",
+    "vocs": "https://pkg.pr.new/wevm/vocs@next",
+    "waku": "1.0.0-alpha.6"
+  }
+}
