@@ -22,7 +22,8 @@ contract BlockNumberish {
 
     constructor() {
         bool useArbSys;
-        assembly ('memory-safe') {
+        /// @solidity memory-safe-assembly
+        assembly {
             if extcodesize(ARB_SYS_ADDRESS) {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
@@ -38,7 +39,8 @@ contract BlockNumberish {
     /// @dev Returns the Arbitrum block number on chains exposing the ArbSys precompile, standard block number elsewhere.
     function _getBlockNumberish() internal view returns (uint256 blockNumber) {
         if (_USE_ARB_SYS) {
-            assembly ('memory-safe') {
+            /// @solidity memory-safe-assembly
+            assembly {
                 mstore(0x00, ARB_SYS_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
                 let success := staticcall(gas(), ARB_SYS_ADDRESS, 0x1c, 0x04, 0x00, 0x20)
@@ -59,7 +61,8 @@ contract BlockNumberish {
     /// @dev Returns Unichain flashblock number on Unichain, 0 elsewhere.
     function _getFlashblockNumberish() internal view returns (uint256 flashblockNumber) {
         if (block.chainid == UNICHAIN_CHAIN_ID) {
-            assembly ('memory-safe') {
+            /// @solidity memory-safe-assembly
+            assembly {
                 mstore(0x00, UNICHAIN_FLASHBLOCK_NUMBER_SELECTOR)
                 // staticcall(gas, address, argsOffset, argsSize, retOffset, retSize)
                 let success := staticcall(gas(), UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS, 0x1c, 0x04, 0x00, 0x20)
