@@ -1,5 +1,5 @@
 # BlockNumberish
-[Git Source](https://github.com/Uniswap/blocknumberish/blob/385593681fd54f88e03632182b553663610aab17/src/BlockNumberish.sol)
+[Git Source](https://github.com/Uniswap/blocknumberish/blob/de3cef833ed793c4220fc6e5315e6cb2ce957bba/src/BlockNumberish.sol)
 
 **Title:**
 BlockNumberish
@@ -55,8 +55,7 @@ address private constant UNICHAIN_FLASHBLOCK_NUMBER_ADDRESS = 0x3c3A8a41E095C76b
 
 
 ### _USE_ARB_SYS
-Whether the ArbSys precompile at address(100) is present and returns a valid block number, probed
-once at construction. This supports all Arbitrum and Orbit chains without maintaining a hardcoded chain ID list.
+Whether to override the block number with the ArbSys precompile. Supports all Arbitrum and Orbit chains.
 
 
 ```solidity
